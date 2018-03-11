@@ -1,6 +1,6 @@
 {
   "name": "pogo-builder",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Javascript Pojo Builder",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,21 @@
   },
   "keywords": [
     "pojo",
+    "pojo builder",
     "object",
     "builder",
+    "object builder",
+    "nested object",
+    "nested object builder",
     "json",
     "elasticsearch",
-    "query",
-    "builder"
+    "query"
   ],
   "author": "Tristan Siegel",
   "license": "ISC",
+  "engines": {
+    "node": ">=6"
+  },
   "devDependencies": {
     "mocha": "^5.0.4"
   }

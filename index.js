@@ -1,4 +1,4 @@
-const keyIsArray = part => part[part.length - 2] === '[' && part[part.length - 1] === ']'
+const keyIsArray = key => key[key.length - 2] === '[' && key[key.length - 1] === ']'
 const parseArrayKey = key => key.slice(0, key.length - 2)
 
 function buildObject(keys, data, obj) {
@@ -36,6 +36,14 @@ function merge(objA, objB, keys) {
   return Object.assign({}, objB, objA, mergeSubsets(objA, objB, keys))
 }
 
+/**
+ * Given a string path it returns a pojo with a matching datastructure
+ *
+ * @param {string} path the string path describing the pojo structure
+ * @param {any} [data] the data to come at the end of the path structure [defaults to {} or [] if path ends in an array]
+ * @param {object} [data] the object that the result is added to, defaults to an empty object
+ * @returns {object} the resulting object of building the path, combined with any data or previous object provided
+ */
 module.exports = function pogo(path, data, obj) {
   if (!data) {
     data = keyIsArray(path) ? [] : {}
