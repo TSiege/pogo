@@ -1,5 +1,6 @@
 const keyIsArray = key => key[key.length - 2] === '[' && key[key.length - 1] === ']'
 const parseArrayKey = key => key.slice(0, key.length - 2)
+const isObject = data => typeof data === 'object' && !Array.isArray(data) && data !== null
 
 function buildObject(keys, data, obj) {
   if (!keys.length) {
@@ -24,11 +25,13 @@ function mergeSubsets(objA, objB, keys, prevKey) {
     const subTrees = mergeSubsets(objA[key], objB[key], keys, key)
     return prevKey ? { [prevKey]: subTrees } : subTrees
   }
+  let leaf = objA
   if (Array.isArray(objA) || Array.isArray(objB)) {
-    const leaf = [...objB, ...objA]
-    return prevKey ? { [prevKey]: leaf } : leaf
+    leaf = [...objB, ...objA]
   }
-  const leaf = Object.assign({}, objB, objA)
+  if (isObject(objA) && isObject(objB)) {
+    leaf = Object.assign({}, objB, objA)
+  }
   return prevKey ? { [prevKey]: leaf } : leaf
 }
 

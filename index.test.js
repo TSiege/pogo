@@ -45,6 +45,14 @@ describe('pogo', () => {
     assert.deepEqual(pojo, expectation)
   })
 
+  it('can overwrite data correctly', () => {
+    assert.deepEqual(pogo(`foo:bar`, true, { foo: { bar: false } }), { foo: { bar: true } })
+    assert.deepEqual(pogo(`foo:bar`, true, { foo: { bar: 'fizz' } }), { foo: { bar: true } })
+    assert.deepEqual(pogo(`foo:bar`, {}, { foo: { bar: 'fizz' } }), { foo: { bar: {} } })
+    assert.deepEqual(pogo(`foo:bar`, { fizz: {} }, { foo: { bar: { buzz: {} } } }), { foo: { bar: { buzz: {}, fizz: {} } } })
+    assert.deepEqual(pogo(`foo:bar[]`, 5, { foo: { bar: [9] } }), { foo: { bar: [9, 5] } })
+  })
+
   it('can handle very complex objects', () => {
     const homepageTag = { slug: 'homepage' }
     const site = { name: 'BUSTLE' }
