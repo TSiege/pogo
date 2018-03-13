@@ -16,17 +16,17 @@ function buildObject(keys, data, obj) {
   return buildObject(keys, { [key]: data })
 }
 
-function mergeSubsets(objA, objB, keys, prevKey) {
+function mergeSubtrees(objA, objB, keys, prevKey) {
   let key = keys.shift()
   if (key && keyIsArray(key)) {
     key = parseArrayKey(key)
   }
   if (objA[key] && objB[key]) {
-    const subTrees = mergeSubsets(objA[key], objB[key], keys, key)
+    const subTrees = mergeSubtrees(objA[key], objB[key], keys, key)
     return prevKey ? { [prevKey]: subTrees } : subTrees
   }
   let leaf = objA
-  if (Array.isArray(objA) || Array.isArray(objB)) {
+  if (Array.isArray(objA) && Array.isArray(objB)) {
     leaf = [...objB, ...objA]
   }
   if (isObject(objA) && isObject(objB)) {
@@ -36,7 +36,7 @@ function mergeSubsets(objA, objB, keys, prevKey) {
 }
 
 function merge(objA, objB, keys) {
-  return Object.assign({}, objB, objA, mergeSubsets(objA, objB, keys))
+  return Object.assign({}, objB, objA, mergeSubtrees(objA, objB, keys))
 }
 
 /**
